@@ -94,6 +94,128 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
+  /users:
+      # our controller name
+      x-swagger-router-controller: hello_world
+      get:
+        description: get the users list
+        # define the type of response for Success "200" and Error
+        responses:
+          "200":
+            description: Success
+            schema:
+              $ref: "#/definitions/GetUsersListResponse"
+          default:
+            description: Error
+            schema:
+              $ref: "#/definitions/ErrorResponse"
+
+
+  /users/{id}:
+    # our controller name
+    x-swagger-router-controller: hello_world   
+    delete:
+      description: delete a user
+      # define the parameters
+      parameters:
+        - name: id
+          description: User id
+          type: string
+          in: path
+          required: true
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GeneralResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"  
+
+  /cities:
+      # our controller name
+      x-swagger-router-controller: hello_world
+      get:
+        description: get the cities list
+        # define the type of response for Success "200" and Error
+        responses:
+          "200":
+            description: Success
+            schema:
+              $ref: "#/definitions/GetCitiesListResponse"
+          default:
+            description: Error
+            schema:
+              $ref: "#/definitions/ErrorResponse" 
+              
+      post:
+        description: add a new city to the list
+        # product info to be stored
+        parameters:
+          - name: name
+            description: City properties
+            in: body
+            required: true
+            schema:
+              $ref: "#/definitions/City"
+        responses:
+          "200":
+            description: Success
+            schema:
+              $ref: "#/definitions/GeneralResponse"
+          default:
+            description: Error
+            schema:
+              $ref: "#/definitions/ErrorResponse"
+              
+  /cities/{id}:
+    # our controller name
+    x-swagger-router-controller: hello_world   
+    put:
+      description: update a city
+      # define the parameters
+      parameters:
+        - name: id
+          description: City id
+          type: string
+          in: path
+          required: true
+        - name: title
+          description: City properties
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/City"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GeneralResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+    delete:
+      description: delete a city
+      # define the parameters
+      parameters:
+        - name: id
+          description: User id
+          type: string
+          in: path
+          required: true
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GeneralResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"           
+
 # complex objects have schema definitions
 definitions:
 
@@ -158,3 +280,70 @@ definitions:
     required:
       - success
       - description
+
+
+  GetUsersListResponse:
+    required:
+        - users
+    properties:
+      users:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+            username:
+              type: string
+            password:
+              type: string
+
+  GetCitiesListResponse:
+    required:
+        - cities
+    properties:
+      cities:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            country:
+              type: string
+            capital:
+              type: boolean
+            location:
+              type: object
+              properties:
+                lat:
+                  type: string
+                long:
+                  type: string
+                  
+  City:
+    type: object
+    properties:
+      name:
+        type: string
+        description: task object name
+      country:
+        type: number
+        description: task description
+      capital:
+        type: boolean
+        description: is the city capital or not
+      location:
+        type: object
+        properties:
+          lat: 
+            type: string
+          long: 
+            type: string
+    required:
+      - name
+      - country           
+      - capital
+      - location
